@@ -1,31 +1,32 @@
-import React from 'react'
-import { FacebookShareButton, TwitterShareButton, WhatsappShareButton } from "react-share";
-import { AiOutlineShareAlt } from "react-icons/ai";
-import { FaFacebook } from "react-icons/fa";
-import { FaXTwitter } from "react-icons/fa6";
-import { FaWhatsapp } from "react-icons/fa";
+import React, { useState, useEffect } from 'react';
+import { FacebookShareButton, InstapaperShareButton, TwitterShareButton, WhatsappShareButton } from "react-share";
+import { FaFacebook, FaTwitter, FaWhatsapp } from "react-icons/fa";
 
-const Share = ({movies}) => {
-//  const moviesDataArray = localStorage.getItem("movies", JSON.parse(movies));
-    const handleShare = () => {
-        const shareText = movies.map((movie) => movie.title).join(", ");
-        console.log(shareText);
-      };
-    handleShare()
-      return (
-        <div className="flex gap-3 justify-end">
-          <FacebookShareButton url={window.location.href}>
-            <FaFacebook onClick={handleShare} />
-          </FacebookShareButton>
-          <TwitterShareButton url={window.location.href}>
-            <FaXTwitter onClick={handleShare} />
-          </TwitterShareButton>
-          <WhatsappShareButton url={window.location.href}>
-            <FaWhatsapp onClick={handleShare} />
-          </WhatsappShareButton>
-        </div>
-      );
-    };
+const Share = ({ movies }) => {
+  const [shareText, setShareText] = useState("");
 
+  useEffect(() => {
+    if (movies.length > 0) {
+      const text = movies.map(movie => movie.title).join(", ");
+      setShareText(text);
+   
+    }
+  }, [movies]);
 
-export default Share
+  return (
+    <div className="flex gap-3 justify-end">
+      <FacebookShareButton url={window.location.href} quote={shareText}>
+        <FaFacebook />
+      </FacebookShareButton>
+      <TwitterShareButton url={window.location.href} title={shareText}>
+        <FaTwitter />
+      </TwitterShareButton>
+      <WhatsappShareButton url={window.location.href} title={shareText}>
+        <FaWhatsapp />
+      </WhatsappShareButton>
+
+    </div>
+  );
+};
+
+export default Share;

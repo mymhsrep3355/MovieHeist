@@ -3,40 +3,68 @@ import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 
 const MovieItems = ({ movie }) => {
   const { title, backdrop_path, poster_path, release_date } = movie;
-  // console.log(title);
-  // console.log(release_date);
-
-  const [like, setLike] = useState(null);
+  const [like, setLike] = useState(false);
+  const userToken = localStorage.getItem("token");
 
   useEffect(() => {
-    if (localStorage.getItem(movie.id)) {
-      setLike(true);
-    } else {
-      setLike(false);
-    }
-  }, [movie.id]);
+    const fetchLikes = async () => {
+      if (userToken) {
+        try {
+          const response = await axios.get("http://localhost:7676/api/auth/likes", {
+            headers: { Authorization: `Bearer ${userToken}` }
+          });
+          const currentLikes = response.data;
+          setLike(currentLikes.includes(movie.id));
+        } catch (error) {
+          console.error("Error fetching likes:", error);
+        }
+      }
+    };
+    fetchLikes();
+  }, [movie.id, userToken]);
 
   const handleLike = async () => {
-    const userToken = localStorage.getItem("token");
-    // console.log(userToken);
     if (!userToken) {
-      toast.error("Please login to like movies");
+      console.error("Please login to like movies");
+      return;
     }
-    else{
+
+    try {
+      const response = await axios.get("http://localhost:7676/api/auth/likes", {
+        headers: { Authorization: `Bearer ${userToken}` }
+      });
+      const currentLikes = response.data;
+
+      let updatedLikes;
       if (like) {
-        localStorage.removeItem(movie.id);
-        setLike(false);
+        updatedLikes = currentLikes.filter(id => id !== movie.id);
       } else {
-        localStorage.setItem(movie.id, JSON.stringify(movie));
-        setLike(true);
-        toast.success("Movie added to favorites");
+        updatedLikes = [...currentLikes, movie.id];
       }
+
+      const updateResponse = await axios.post(
+        "http://localhost:7676/api/auth/likes",
+        { movieId: movie.id },
+        { headers: { Authorization: `Bearer ${userToken}` } }
+      );
+
+      const { user } = updateResponse.data;
+      if (user && user.likedMovies) {
+        setLike(user.likedMovies.includes(movie.id));
+        if (like) {
+          console.info("Movie removed from favorites");
+        } else {
+          console.info("Movie added to favorites");
+        }
+      } else {
+        throw new Error("Invalid user data");
+      }
+    } catch (error) {
+      console.error("Error updating likes:", error);
     }
   };
 
@@ -50,14 +78,13 @@ const MovieItems = ({ movie }) => {
     >
       <button
         className="absolute bg-black text-white p-2 z-20 right-0 m-3 rounded-full text-xl"
-        onClick={() => handleLike(movie.id)}
+        onClick={handleLike}
       >
-        {" "}
         {like ? <AiFillStar /> : <AiOutlineStar />}
       </button>
 
       <div className="absolute bottom-0 w-full flex justify-between items-end p-3 z-20">
-        <h1 className="text-white text-xl font-semibold  break-normal break-words">
+        <h1 className="text-white text-xl font-semibold break-normal break-words">
           {movie.title || movie.name}
         </h1>
 
@@ -91,28 +118,8 @@ const MovieItems = ({ movie }) => {
           />
         )}
       </div>
-      <ToastContainer />
     </motion.div>
   );
 };
 
 export default MovieItems;
-// try {
-//   const token = localStorage.getItem("token"); // Assuming you store the token in localStorage
-//   const headers = {
-//     Authorization: `Bearer ${token}`,
-//   };
-
-//   const response = await axios.post(
-//     "http://localhost:7676/api/auth/likes",
-//     { likes: [movieId] },
-//     { headers, withCredentials: true }
-//   );
-
-//   console.log(response.data); // Check the response from the backend
-
-//   // Update local state or perform any necessary actions after liking a movie
-// } catch (error) {
-//   console.error("Error liking movie:", error.message);
-//   // Handle error, e.g., display an error message to the user
-// }
