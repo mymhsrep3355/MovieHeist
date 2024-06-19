@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import axios from "axios";
 
@@ -21,6 +23,7 @@ const MovieItems = ({ movie }) => {
           setLike(currentLikes.includes(movie.id));
         } catch (error) {
           console.error("Error fetching likes:", error);
+          // toast.error("Error fetching likes")
         }
       }
     };
@@ -29,6 +32,7 @@ const MovieItems = ({ movie }) => {
 
   const handleLike = async () => {
     if (!userToken) {
+      toast.error("Please login to like movies");
       console.error("Please login to like movies");
       return;
     }
@@ -56,8 +60,10 @@ const MovieItems = ({ movie }) => {
       if (user && user.likedMovies) {
         setLike(user.likedMovies.includes(movie.id));
         if (like) {
+          toast.info("Movie removed from favorites")
           console.info("Movie removed from favorites");
         } else {
+          toast.info("Movie added to favorites")
           console.info("Movie added to favorites");
         }
       } else {
@@ -118,6 +124,7 @@ const MovieItems = ({ movie }) => {
           />
         )}
       </div>
+      <ToastContainer></ToastContainer>
     </motion.div>
   );
 };

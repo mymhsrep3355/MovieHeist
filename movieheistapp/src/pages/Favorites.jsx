@@ -29,6 +29,7 @@ const Favorites = () => {
       return movies;
     } catch (error) {
       console.error('Error fetching movie details:', error);
+      toast.error("Error fetching likes")
       return []; // Handle error state or return default value
     }
   };

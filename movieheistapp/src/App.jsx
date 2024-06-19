@@ -20,12 +20,18 @@ import MoviePlayer from "./pages/MoviePlayer.jsx";
 import ResetPassword from "./components/ResetPassword.jsx";
 import Quiz from "./pages/Quiz.jsx";
 import Reviews from "./pages/Reviews.jsx";
+import AppFooter from "./components/Footer.jsx";
+
 
 const App = () => {
   return (
     <>
+    <div className="flex flex-col min-h-screen">
+
       <DataProvider
         child={
+          <div className="flex-grow">
+
           <Routes>
             <Route path="/signUp" element={<SignUp />} />
             <Route path="/login" element={<Login />} />
@@ -47,8 +53,13 @@ const App = () => {
             <Route path="/movie-player/:id" element={<MoviePlayer></MoviePlayer>}></Route>
             <Route path="/Quiz" element={<Quiz/>}></Route>
           </Routes>
+          </div>
+          
         }
+
       ></DataProvider>
+      <AppFooter></AppFooter>
+    </div>
     </>
   );
 };
