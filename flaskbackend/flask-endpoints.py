@@ -103,7 +103,8 @@ def get_recommended_movies(user_movies, recommendations=5):
 
 client = OpenAI(
     # openai api key to interact with the openai api to get the responses from the model
-    api_key="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"
+    # api_key="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"
+    api_key = "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"
 )
 
 

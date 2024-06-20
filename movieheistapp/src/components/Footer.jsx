@@ -58,31 +58,31 @@ const AppFooter = () => {
         <div className="flex justify-center space-x-4">
           <a
             className="text-white hover:text-gray-400"
-            href="https://github.com/mvaibhav131"
+            href="#"
           >
             <GithubOutlined style={{ fontSize: "24px" }} />
           </a>
           <a
             className="text-white hover:text-gray-400"
-            href="https://gitlab.com/mvaibhav131"
+            href="#"
           >
             <GitlabOutlined style={{ fontSize: "24px" }} />
           </a>
           <a
             className="text-white hover:text-gray-400"
-            href="https://www.instagram.com/vaibhavmore1997/"
+            href="#"
           >
             <InstagramOutlined style={{ fontSize: "24px" }} />
           </a>
           <a
             className="text-white hover:text-gray-400"
-            href="https://twitter.com/mvaibhav131"
+            href="#"
           >
             <TwitterOutlined style={{ fontSize: "24px" }} />
           </a>
           <a
             className="text-white hover:text-gray-400"
-            href="https://www.linkedin.com/in/vaibhav131/"
+            href="#"
           >
             <LinkedinOutlined style={{ fontSize: "24px" }} />
           </a>

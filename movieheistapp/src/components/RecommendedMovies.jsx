@@ -3,6 +3,7 @@ import axios from 'axios';
 import { HiChevronLeft } from 'react-icons/hi';
 import { Link } from 'react-router-dom';
 import { RootURL, key } from '../utils/FetchMovies';
+import Loader from './Loaders/Loader';
 
 const RecommendedMovies = () => {
   const [recommendedMovies, setRecommendedMovies] = useState([]);
@@ -74,7 +75,8 @@ const RecommendedMovies = () => {
       <h2 className="text-center font-bold text-white text-2xl mb-6 mt-12">Recommended Movies</h2>
       <div className="flex flex-wrap justify-center gap-4">
         {loading ? (
-          <p className="text-xl text-white">Loading...</p>
+
+          <Loader></Loader>
         ) : recommendedMovies.length === 0 ? (
           <p className="text-xl text-white">No recommendations found.</p>
         ) : (

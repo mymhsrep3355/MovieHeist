@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Link, useLocation, useParams, useNavigate } from "react-router-dom";
 import { HiChevronLeft } from "react-icons/hi";
 import axios from "axios";
+import QuizLoader from "../components/Loaders/QuizLoader.jsx";
 
 const Quiz = () => {
   const navigate = useNavigate();
@@ -120,7 +121,7 @@ const handleScore = (score) => {
 
   const renderQuizContent = () => {
     if (!quizData) {
-      return <p>Loading quiz data...</p>; // Display loading indicator while fetching data
+      return <QuizLoader></QuizLoader>; // Display loading indicator while fetching data
     }
 
     const currentQuestionData = quizData.questions[currentQuestion];

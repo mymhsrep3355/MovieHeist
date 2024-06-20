@@ -7,10 +7,12 @@ import { HiChevronLeft } from "react-icons/hi";
 import Share from "../components/Share.jsx";
 import axios from "axios";
 import { key, RootURL } from "../utils/FetchMovies.js";
+import Loader from "../components/Loaders/Loader.jsx"; // Import the Loader component
 
 const Favorites = () => {
   const { getUserLiked } = useContext(Context);
   const [favoriteMovies, setFavoriteMovies] = useState([]);
+  const [loading, setLoading] = useState(true); // Add loading state
 
   useEffect(() => {
     fetchFavoriteMovies();
@@ -46,6 +48,8 @@ const Favorites = () => {
     } catch (error) {
       console.error("Error fetching favorite movies:", error);
       // Handle error state or logging as needed
+    } finally {
+      setLoading(false); // Set loading to false after data is fetched
     }
   };
 
@@ -60,21 +64,27 @@ const Favorites = () => {
       <h1 className="text-center font-bold mr-auto text-white text-2xl mb-6">
         Favorite Movies
       </h1>
-      <Share movies={favoriteMovies} />
-      <motion.div
-        layout
-        className="w-full md:p-2 flex flex-wrap relative md:justify-around justify-evenly mt-14"
-      >
-        <AnimatePresence>
-          {favoriteMovies.length === 0 ? (
-            <p className="text-xl text-white">No Favorites Yet!</p>
-          ) : (
-            favoriteMovies.map((movie, index) => (
-              <MovieItems key={movie.id} movie={movie} />
-            ))
-          )}
-        </AnimatePresence>
-      </motion.div>
+      {loading ? ( // Show loader while loading
+        <Loader />
+      ) : (
+        <>
+          <Share movies={favoriteMovies} />
+          <motion.div
+            layout
+            className="w-full md:p-2 flex flex-wrap relative md:justify-around justify-evenly mt-14"
+          >
+            <AnimatePresence>
+              {favoriteMovies.length === 0 ? (
+                <p className="text-xl text-white">No Favorites Yet!</p>
+              ) : (
+                favoriteMovies.map((movie, index) => (
+                  <MovieItems key={movie.id} movie={movie} />
+                ))
+              )}
+            </AnimatePresence>
+          </motion.div>
+        </>
+      )}
     </div>
   );
 };
