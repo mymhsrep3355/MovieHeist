@@ -21,11 +21,13 @@ import ResetPassword from "./components/ResetPassword.jsx";
 import Quiz from "./pages/Quiz.jsx";
 import Reviews from "./pages/Reviews.jsx";
 import AppFooter from "./components/Footer.jsx";
+import LoadingScreen from "./components/LoadingScreen/LoadingScreen.jsx";
 
 
 const App = () => {
   return (
     <>
+    <LoadingScreen/>
     <div className="flex flex-col min-h-screen">
 
       <DataProvider

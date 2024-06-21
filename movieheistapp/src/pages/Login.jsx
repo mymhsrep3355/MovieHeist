@@ -11,6 +11,7 @@ import { SiSuperuser } from "react-icons/si";
 
 const Login = () => {
   const navigate = useNavigate();
+  const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -19,6 +20,7 @@ const Login = () => {
     try {
       
       const resp = await axios.post("http://localhost:7676/api/auth/login",{
+        userName: userName,
         email: email,
         password: password
       });
@@ -51,12 +53,20 @@ const Login = () => {
           alt=""
         />
         <div className=" bg-black/60 fixed top-0 left-0 w-full h-screen" />
-        <div className=" fixed w-full">
+        <div className=" relative w-full">
           <AppHeader login={false} />
-          <div className=" mt-3 h-[510px] max-w-[480px] mx-auto bg-black/70 rounded-lg">
+          <div className=" mt-3 h-[600px] max-w-[480px] mx-auto bg-black/70 rounded-lg">
             <div className=" max-w-[330px] mx-auto py-9">
               <h1 className="flex font-sans text-3xl justify-start">Sign In</h1>
               <form action="/home" className="w-full flex flex-col py-3">
+              <input
+                  type="text"
+                  name="userName"
+                  className=" p-3 my-2 bg-gray-600 rounded"
+                  placeholder="User Name"
+                  onChange={(event) => setUserName(event.target.value)}
+                  value={userName}
+                />
                 <input
                   type="email"
                   name="email"

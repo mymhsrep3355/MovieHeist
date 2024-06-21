@@ -7,7 +7,7 @@ export const RootURL = "https://api.themoviedb.org/3";
 const year = 2018;
 const APIendpoints = {
   popular: `${RootURL}/movie/popular?api_key=${key}&include_adult=false`,
-  topRated: `${RootURL}/movie/top_rated?api_key=${key}&include_adult=false`,
+  topRated: `${RootURL}/movie/top_rated?api_key=${key}&include_adult=false&language=en-US&page=1`,
   trending: `${RootURL}/movie/popular?api_key=${key}&language=en-US&page=2&include_adult=false`,
   comedy: `${RootURL}/search/movie?api_key=${key}&language=en-US&query=comedy&page=1&include_adult=false`,
   upcoming: `${RootURL}/movie/upcoming?api_key=${key}&include_adult=false`,
@@ -47,58 +47,3 @@ export function backdrops(file, size) {
 
 export default APIendpoints;
 
-// Export individual constants and objects directly
-// const key = "b93a64480573ce5248c28b200d79d029";
-// const RootURL = "https://api.themoviedb.org/3";
-
-// const APIendpoints = {
-//     popular: `${RootURL}/movie/popular?api_key=${key}`,
-//     topRated: `${RootURL}/movie/top_rated?api_key=${key}`,
-//     trending: `${RootURL}/movie/popular?api_key=${key}&language=en-US&page=2`,
-//     comedy: `${RootURL}/search/movie?api_key=${key}&language=en-US&query=comedy&page=1&include_adult=false`,
-//     upcoming: `${RootURL}/movie/upcoming?api_key=${key}`,
-//     action: `${RootURL}/discover/movie?api_key=${key}&language=en-US&with_genres=18`,
-//     horror: `${RootURL}/discover/movie?api_key=${key}&language=en-US&with_genres=27`,
-//     romance: `${RootURL}/discover/movie?api_key=${key}&language=en-US&with_genres=10749`,
-//     documentaries: `${RootURL}/discover/movie?api_key=${key}&language=en-US&with_genres=99`
-// };
-
-// const TVshowsEndpoints = {
-  
-// };
-
-// function backdrops(file, size){
-//     return `https://image.tmdb.org/t/p/${size}/${file}`;
-// }
-
-// export default {
-  //     key,
-//     RootURL,
-//     APIendpoints,
-//     TVshowsEndpoints,
-//     backdrops
-// };
-
-// export const fetchMovieDetails = async (movieName) => {
-//   try {
-//    //getting movie detail by name
-//     const searchURL = `${RootURL}/search/movie?api_key=${key}&language=en-US&query=${encodeURIComponent(movieName)}&page=1&include_adult=false`;
-
-//    //fetching movie detail
-//     const response = await axios.get(searchURL);
-//     const movieDetails = response.data.results[0];
-
-//     // Construct the URL for the movie poster
-//     const posterURL = movieDetails ? backdrops(movieDetails.poster_path, 'w500') : '';
-
-//     // Return an object containing movie details
-//     return {
-//       title: movieDetails.title,
-//       release_date: movieDetails.release_date,
-//       poster_url: posterURL
-//     };
-//   } catch (error) {
-//     console.error('Error fetching movie details:', error);
-//     return null;
-//   }
-// };

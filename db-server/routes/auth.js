@@ -10,7 +10,7 @@ require("dotenv").config();
 const JWT_SECRET = process.env.JWT_SECRET;
 //signup route
 router.post("/signup", async (req, res) => {
-  const { email, password, preferences } = req.body;
+  const { userName, firstName, lastName, email, password, preferences } = req.body;
   try {
     // Check if user exists
     const existingUser = await User.findOne({ email });
@@ -18,7 +18,7 @@ router.post("/signup", async (req, res) => {
       return res.status(400).json({ message: "User already exists" });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({ email, password: hashedPassword, preferences });
+    const newUser = new User({ firstName, lastName, userName, email, password: hashedPassword, preferences });
 
     // Save the user
     await newUser.save();
@@ -31,7 +31,7 @@ router.post("/signup", async (req, res) => {
 
 //login
 router.post("/login", async (req, res) => {
-  const { email, password } = req.body;
+  const { userName, email, password } = req.body;
   try {
     //checking if user exists
     const user = await User.findOne({ email });
@@ -213,7 +213,7 @@ router.get('/reviews/:movie_id', async (req, res) => {
         { message: 'Internal Server Error' });
   }
 });
-
+    
 
 // to get user reviews
 router.get('/reviews', verifyToken, async (req, res) => {

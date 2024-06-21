@@ -16,6 +16,9 @@ const Genres = () => {
   const location = useLocation();
   const email = location.state?.email;
   const password = location.state?.password;
+  const userName = location.state?.userName;
+  const firstName = location.state?.firstName;
+  const lastName = location.state?.lastName;
   useEffect(() => {
     fetchGenre();
   }, []);
@@ -45,7 +48,10 @@ const Genres = () => {
         const response = await axios.post(
           `http://localhost:7676/api/auth/signup`,
           {
+            firstName: firstName,
+            lastName: lastName,
             email: email,
+            userName: userName,
             password: password,
             preferences: selectedGenres,
           }
