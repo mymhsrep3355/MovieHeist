@@ -7,12 +7,12 @@ import { HiChevronLeft } from "react-icons/hi";
 import Share from "../components/Share.jsx";
 import axios from "axios";
 import { key, RootURL } from "../utils/FetchMovies.js";
-import Loader from "../components/Loaders/Loader.jsx"; // Import the Loader component
+import Loader from "../components/Loaders/Loader.jsx";
 
 const Favorites = () => {
   const { getUserLiked } = useContext(Context);
   const [favoriteMovies, setFavoriteMovies] = useState([]);
-  const [loading, setLoading] = useState(true); // Add loading state
+  const [loading, setLoading] = useState(true); 
 
   useEffect(() => {
     fetchFavoriteMovies();
